@@ -45,3 +45,25 @@ app.post('/api/data', (req, res) => {
         res.status(201).json({ message: 'Cliente agregado', result });
     });
 });
+
+// Ruta para eliminar datos
+app.delete('/api/delete-data', (req, res) => {
+    const query = "DELETE FROM `clientes` WHERE Pagos='pago'";
+    db.query(query, (err, results) => {
+        if (err) {
+            return res.status(500).json({ message: 'Error al eliminar datos', error: err });
+        }
+        res.json({ message: 'Datos eliminados correctamente', results });
+    });
+});
+
+// También puedes mantener la ruta antigua para compatibilidad
+app.post('/ape/data', (req, res) => {
+    const query = "DELETE FROM `clientes` WHERE Pagos='pagos'";
+    db.query(query, (err, result) => {
+        if (err) {
+            return res.status(500).json({ message: 'Error al consultar', error: err });
+        }
+        res.status(200).json(result);
+    });
+});
