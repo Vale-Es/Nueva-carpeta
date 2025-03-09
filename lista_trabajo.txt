@@ -1,0 +1,27 @@
+Tablas
+
+Cliente
+nombre
+sabor1
+sabor2
+dia_entraga
+
+Inventario
+sabor
+cantidad_postres
+
+Recursos
+recursos_actuales
+
+CLI-INV-REC
+calcular la cantidad de recursos base necesarios para la fabricacion de postres pedidos
+compara la cantidad de recursos necesarios con los que se poseen actualmente
+
+Sistema Corte
+
+Corte de sabores
+cada fin de semana se exporta una tabla de registro de ventas semanal, los clientes que aun no pagan se notifica en la app de la cantidad de postres y el dinero faltante
+se borra la cantidad de postres reservados para empezar la nueva lista de la semana
+
+Corte de 300
+cada 300 ventas se borran los clientes que no tengan una racha de fidelidad y se mantienen los clientes que aun no pagan
