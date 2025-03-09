@@ -13,7 +13,7 @@ function App() {
   });
 
   // Función para obtener datos del backend
-  const fetchData = async () => {
+  const fetchData = async () => {s
     setLoading(true);
     try {
       const response = await fetch('http://localhost:5000/api/data');
