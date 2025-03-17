@@ -1,10 +1,13 @@
+import React from 'react';
+import './ClienteTable.css';
+
 function ClienteTable({ data, loading }) {
     if (loading) return <p>Cargando...</p>;
   
     return (
-      <div className="client-list">
-        <h2>Datos de la base de datos</h2>
-        <table>
+      <div className="client__list-container">
+        <h2 className='client__list-tittle' >Datos de la base de datos</h2>
+        <table className="client__list-table">
           <thead>
             <tr>
               <th>Número</th>

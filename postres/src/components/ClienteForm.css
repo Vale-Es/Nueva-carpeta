@@ -1,0 +1,29 @@
+.form__submit-button{
+    background-color: transparent ;
+    padding: 10px 20px;
+    margin: 10px 0;
+    border: solid 1px #D3E671;
+    border-radius: 5px;
+}
+
+.form__submit-button:hover{
+    background-color: #D3E671;
+    color: black;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.form__group{
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0;
+
+}
+
+.form__input{
+    display: block;
+}
+
+.form__input-label{
+    padding-left: 3px;
+}

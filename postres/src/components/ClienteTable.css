@@ -1,0 +1,18 @@
+.client__list-container{
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #57b3baad;
+}
+
+.client__list-table{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.client__list-tittle{
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: black;
+    text-align: center;
+    margin-bottom: 10px;
+}

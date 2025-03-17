@@ -3,6 +3,7 @@ import ClienteForm from './ClienteForm';
 import ClienteTable from './ClienteTable';
 import EliminarClientes from './EliminarClientes';
 import useClientes from './useClientes';
+import './Formulario.css';
 
 function Formulario() {
   const {
@@ -16,11 +17,13 @@ function Formulario() {
   } = useClientes();
 
   return (
-    <div className="container">
-      <h1>Formulario de Pedido</h1>
+    <div className="formulario__container">
+      <div className="formulario__datos">
+      <h2>Formulario de Pedido</h2>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       
       <ClienteForm
+        className="formulario__cliente"
         formData={formData}
         loading={loading}
         handleChange={handleInputChange}
@@ -28,11 +31,16 @@ function Formulario() {
       />
 
       <EliminarClientes
+        className="formulario__eliminar"
         loading={loading}
         onDelete={deleteData}
       />
-
-      <ClienteTable data={data} loading={loading} />
+      </div>
+      <div className='formulario__tabla-container'>
+      <ClienteTable
+        className="formulario__tabla"
+       data={data} loading={loading} />
+       </div>
     </div>
   );
 }
