@@ -4,15 +4,20 @@
     grid-template-rows: repeat(5, 1fr);
     gap: 8px;
 }
-.formulario__datos{
+.formulario__datos {
     grid-row: span 5 / span 5;
     padding: 10px;
     border-radius: 5px;
-    background-color: #57b3baad;
     
     
-}
-
+    background-color: rgba(255, 255, 255, 0.05); 
+    
+    
+    box-shadow: 0 4px 20px rgba(87, 179, 186, 0.5);
+    
+    backdrop-filter: blur(10px); 
+    -webkit-backdrop-filter: blur(10px);
+  }
 .formulario__tabla-container{
     grid-column: span 3 / span 3;
     grid-row: span 5 / span 5;
