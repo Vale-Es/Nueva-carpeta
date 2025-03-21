@@ -10,7 +10,7 @@ function ClienteTable({ data, loading }) {
         <table className="client__list-table">
           <thead>
             <tr>
-              <th>Número</th>
+              <th>ID</th>
               <th>Nombre</th>
               <th>Teléfono</th>
               <th>Sabor 1</th>
@@ -23,15 +23,15 @@ function ClienteTable({ data, loading }) {
           <tbody>
             {data.length > 0 ? (
               data.map((item) => (
-                <tr key={item.Numero}>
-                  <td>{item.Numero}</td>
-                  <td>{item.nombre || item.Nombre}</td>
-                  <td>{item.telefono || item.Telefono}</td>
-                  <td>{item.sabor1 || item.Sabor_1}</td>
-                  <td>{item.sabor2 || item.Sabor_2}</td>
-                  <td>{item.Pagos}</td>
-                  <td>{item.Racha}</td>
-                  <td>{item.fechaEntrega || item.Dia_de_la_entrega}</td>
+                <tr key={item.id}>
+                  <td>{item.id}</td>
+                  <td>{item.nombre}</td>
+                  <td>{item.telefono}</td>
+                  <td>{item.sabor_1}</td>
+                  <td>{item.sabor_2}</td>
+                  <td>{item.pagos}</td>
+                  <td>{item.racha}</td>
+                  <td>{item.dia_entrega}</td>
                 </tr>
               ))
             ) : (
