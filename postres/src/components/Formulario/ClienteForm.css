@@ -55,3 +55,9 @@
     border: none;
     outline: none;
 }
+
+.form__btn{
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}

@@ -1,7 +1,11 @@
 import React from 'react';
 import './ClienteForm.css';
+import EliminarClientes from './EliminarClientes';
+import useClientes from './useClientes';
+
 
 function ClienteForm({ formData, loading, handleChange, handleSubmit }) {
+  const { deleteData } = useClientes();
   return (
     <div className="form__container">
   <form onSubmit={handleSubmit}>
@@ -108,7 +112,7 @@ function ClienteForm({ formData, loading, handleChange, handleSubmit }) {
         <option value="completo">Completo</option>
       </select>
     </div>
-
+    <div className='form__btn'>
     {/* Botón de enviar */}
     <button
       type="submit"
@@ -117,6 +121,13 @@ function ClienteForm({ formData, loading, handleChange, handleSubmit }) {
     >
       {loading ? 'Enviando...' : 'Enviar Pedido'}
     </button>
+
+    <EliminarClientes
+            className="formulario__eliminar"
+            loading={loading}
+            onDelete={deleteData}
+          />
+    </div>
   </form>
 </div>
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import './ProductForm.css';
 
 
 function ProductForm({ formData, loading, handleChange, handleSubmit }) {

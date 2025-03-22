@@ -1,18 +1,50 @@
 .client__list-container{
-    padding: 10px;
+    padding: 1rem;
     border-radius: 5px;
     background-color: #57b3baad;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .client__list-table{
     width: 100%;
+    max-width: 1000px; /* Para que no se pase de cierto tamaño */
     border-collapse: collapse;
+    background-color: white;
+    border-radius: 5px;
+    padding: 10px;
 }
 
 .client__list-tittle{
-    font-size: 1.5rem;
-    font-weight: bold;
     color: black;
     text-align: center;
     margin-bottom: 10px;
 }
+
+th{
+    background-color: #57b3ba;
+    color: white;
+    padding: 10px;
+}
+
+
+@media (max-width: 768px) {
+
+    .client__list-container {
+      padding: 0.5rem;
+      overflow-x: auto; /* Para scroll si es necesario en pantallas pequeñas */
+    }
+    .client__list-table {
+      font-size: 0.9rem;
+      min-width: 600px;
+    }
+  
+    th, td {
+      padding: 8px;
+    }
+  
+    .client__list-tittle {
+      font-size: 1.2rem;
+    }
+  }

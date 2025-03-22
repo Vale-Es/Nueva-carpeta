@@ -1,8 +1,7 @@
 import React from 'react';
 import ClienteForm from './ClienteForm';
 import ClienteTable from './ClienteTable';
-import EliminarClientes from './EliminarClientes';
-import useClientes from '../useClientes';
+import useClientes from './useClientes';
 import './Formulario.css';
 import Header from '../Header';
 
@@ -16,7 +15,6 @@ function Formulario() {
     error,
     handleInputChange,
     handleSubmit,
-    deleteData,
   } = useClientes();
 
   return (
@@ -33,12 +31,6 @@ function Formulario() {
             loading={loading}
             handleChange={handleInputChange}
             handleSubmit={handleSubmit}
-          />
-
-          <EliminarClientes
-            className="formulario__eliminar"
-            loading={loading}
-            onDelete={deleteData}
           />
         </div>
         <div className="formulario__tabla-container">

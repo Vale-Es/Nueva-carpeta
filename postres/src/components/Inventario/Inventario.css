@@ -1,20 +1,21 @@
-.formulario__container {
+.inventario__container {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-template-rows: repeat(5, 1fr);
     gap: 8px;
 }
-.formulario__datos {
+
+.formulario__productos {
     grid-row: span 5 / span 5;
     padding: 10px;
     border-radius: 5px;
-    background-color: rgba(255, 255, 255, 0.05); 
+    background-color: rgba(255, 255, 255, 0.05);
     box-shadow: 0 4px 20px rgba(87, 179, 186, 0.5);
-    backdrop-filter: blur(10px); 
+    backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-  }
-.formulario__tabla-container{
+}
+
+.inventario__tabla-container {
     grid-column: span 3 / span 3;
     grid-row: span 5 / span 5;
 }
-
