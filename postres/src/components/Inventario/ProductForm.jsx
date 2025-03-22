@@ -1,23 +1,77 @@
 import React from 'react';
 
 
-function ProductForm () {
+function ProductForm({ formData, loading, handleChange, handleSubmit }) {
+  return (
     <div className="form__container">
-    <form onSubmit={handleProductSubmit} className="">
-      {/* Campos del formulario */}
-      {/* ... mismo contenido, solo cambiando `onChange={handleProductChange}` y valores recibidos como props */}
-      <div className="form__group">
-        <div className='form__input'>
-        <label className='form__input-label' htmlFor="productName">Nombre del Producto:</label>
-        <input className='form__input-input' type="text" id="productName" name="productName" value={productData.productName} onChange={handleProductChange} required />
+      <form onSubmit={handleSubmit}>
+        {/* Item */}
+        <div className="form__group">
+          <label className="form__input-label" htmlFor="item">Item:</label>
+          <input
+            className="form__input-input"
+            type="text"
+            id="item"
+            name="item"
+            value={formData.item}
+            onChange={handleChange}
+            required
+          />
         </div>
-      {/* Repite esto para los demás campos... */}
-      <button type="submit" disabled={productLoading} className="form__submit-button">
-        {productLoading ? 'Enviando...' : 'Enviar Producto'}
-      </button>
-      </div>
-    </form>
+
+        {/* Precio */}
+        <div className="form__group">
+          <label className="form__input-label" htmlFor="precio">Precio:</label>
+          <input
+            className="form__input-input"
+            type="number"
+            id="precio"
+            name="precio"
+            value={formData.precio}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        {/* Cantidad */}
+        <div className="form__group">
+          <label className="form__input-label" htmlFor="cantidad">Cantidad:</label>
+          <input
+            className="form__input-input"
+            type="number"
+            id="cantidad"
+            name="cantidad"
+            value={formData.cantidad}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        {/* Gramos */}
+        <div className="form__group">
+          <label className="form__input-label" htmlFor="gramos">Gramos:</label>
+          <input
+            className="form__input-input"
+            type="number"
+            id="gramos"
+            name="gramos"
+            value={formData.gramos}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        {/* Botón de enviar */}
+        <button
+          type="submit"
+          disabled={loading}
+          className="form__submit-button"
+        >
+          {loading ? 'Enviando...' : 'Enviar Pedido'}
+        </button>
+      </form>
     </div>
+  );
 }
 
 export default ProductForm;

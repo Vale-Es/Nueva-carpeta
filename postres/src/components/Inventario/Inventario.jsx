@@ -8,6 +8,7 @@ function Inventario() {
     <div>
       <Header />
       <h2>Inventario</h2>
+      <ProductForm />
     </div>
   );
 }
