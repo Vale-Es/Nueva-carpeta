@@ -39,12 +39,12 @@ function ClienteForm({ formData, loading, handleChange, handleSubmit }) {
 
     {/* Celular */}
     <div className="form__group">
-      <label className="form__input-label" htmlFor="celular">Celular:</label>
+      <label className="form__input-label" htmlFor="telefono">Celular:</label>
       <input
         className="form__input-input"
         type="tel"
-        id="celular"
-        name="celular"
+        id="telefono"
+        name="telefono"
         value={formData.celular}
         onChange={handleChange}
         required

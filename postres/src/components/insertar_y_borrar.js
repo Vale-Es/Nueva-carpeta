@@ -30,26 +30,46 @@ app.get('/api/data', async (req, res) => {
 // Ruta para insertar datos
 app.post('/api/data', async (req, res) => {
     const { nombre, telefono, sabor1, sabor2, fechaEntrega } = req.body;
+    
     try {
+        // 1. Validar y convertir la fecha
+        const fechaConvertida = new Date(fechaEntrega);
+        
+        if (isNaN(fechaConvertida.getTime())) {
+            throw new Error("Formato de fecha inválido. Usa 'YYYY-MM-DD HH:MM:SS' o ISO 8601.");
+        }
+
+        // 2. Insertar en PostgreSQL (usa .toISOString() para timestamp with time zone)
         const result = await sql`
-            INSERT INTO clientes (nombre, telefono, sabor_1, sabor_2, dia_entrega)
-            VALUES (${nombre}, ${telefono}, ${sabor1}, ${sabor2}, ${fechaEntrega})
+            INSERT INTO cliente (nombre, telefono, sabor_1, sabor_2, dia_entrega)
+            VALUES (
+                ${nombre}, 
+                ${telefono}, 
+                ${sabor1}, 
+                ${sabor2}, 
+                ${fechaConvertida.toISOString()}  // Convierte a formato ISO para PostgreSQL
+            )
             RETURNING *`;
+        
         res.status(201).json({ message: 'Cliente agregado', result });
     } catch (err) {
         console.error('Error al insertar datos:', err);
-        res.status(500).json({ message: 'Error al insertar datos', error: err });
+        res.status(500).json({ 
+            message: 'Error al insertar datos',
+            error: err.message
+        });
     }
 });
 
 // Ruta para eliminar datos
 app.delete('/api/delete-data', async (req, res) => {
     try {
-        const results = await sql`DELETE FROM cliente WHERE pagos = TRUE RETURNING *`;
+        // Asegúrate de usar el formato correcto que coincida con tus datos
+        const results = await sql`DELETE FROM cliente WHERE pagos = 'si' RETURNING *`;
         res.json({ message: 'Datos eliminados correctamente', results });
     } catch (err) {
         console.error('Error al eliminar datos:', err);
-        res.status(500).json({ message: 'Error al eliminar datos', error: err });
+        res.status(500).json({ message: 'Error al eliminar datos', error: err.message });
     }
 });
 
