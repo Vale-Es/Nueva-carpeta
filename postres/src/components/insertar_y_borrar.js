@@ -27,19 +27,23 @@ app.get('/api/data', async (req, res) => {
     }
 });
 
-// Ruta para insertar datos
 app.post('/api/data', async (req, res) => {
-    const { nombre, telefono, sabor1, sabor2, fechaEntrega } = req.body;
+    const { nombre, telefono, sabor1, sabor2, dia, hora } = req.body; // Cambia fechaEntrega por dia y hora
     
     try {
-        // 1. Validar y convertir la fecha
-        const fechaConvertida = new Date(fechaEntrega);
-        
-        if (isNaN(fechaConvertida.getTime())) {
-            throw new Error("Formato de fecha inválido. Usa 'YYYY-MM-DD HH:MM:SS' o ISO 8601.");
+        // 1. Validar y combinar fecha y hora
+        if (!dia || !hora) {
+            throw new Error("Fecha y hora son requeridas");
         }
 
-        // 2. Insertar en PostgreSQL (usa .toISOString() para timestamp with time zone)
+        // Combina fecha y hora en formato ISO
+        const fechaCompleta = new Date(`${dia}T${hora}:00`);
+        
+        if (isNaN(fechaCompleta.getTime())) {
+            throw new Error("Formato de fecha/hora inválido");
+        }
+
+        // 2. Insertar en PostgreSQL
         const result = await sql`
             INSERT INTO cliente (nombre, telefono, sabor_1, sabor_2, dia_entrega)
             VALUES (
@@ -47,7 +51,7 @@ app.post('/api/data', async (req, res) => {
                 ${telefono}, 
                 ${sabor1}, 
                 ${sabor2}, 
-                ${fechaConvertida.toISOString()}  // Convierte a formato ISO para PostgreSQL
+                ${fechaCompleta.toISOString()}
             )
             RETURNING *`;
         
