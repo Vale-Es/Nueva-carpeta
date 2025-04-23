@@ -14,7 +14,9 @@ function ClienteTable({ data, loading }) {
               <th>Nombre</th>
               <th>Teléfono</th>
               <th>Sabor 1</th>
+              <th>Cantidad</th>
               <th>Sabor 2</th>
+              <th>Cantidad</th>
               <th>Pagos</th>
               <th>Racha</th>
               <th>Fecha Entrega</th>
@@ -24,12 +26,14 @@ function ClienteTable({ data, loading }) {
             {data.length > 0 ? (
               data.map((item) => (
                 <tr key={item.id}>
-                  <td>{item.id}</td>
-                  <td>{item.nombre}</td>
+                  <td>{item.id_cliente}</td>
+                  <td>{item.nombre_cliente}</td>
                   <td>{item.telefono}</td>
-                  <td>{item.sabor_1}</td>
-                  <td>{item.sabor_2}</td>
-                  <td>{item.pagos}</td>
+                  <td>{item.sabor_postre_1}</td>
+                  <td>{item.cantidad_postre_1}</td>
+                  <td>{item.sabor_postre_2}</td>
+                  <td>{item.cantidad_postre_2}</td>
+                  <td>{item.pago}</td>
                   <td>{item.racha}</td>
                   <td>{item.dia_entrega}</td>
                 </tr>
