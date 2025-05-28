@@ -1,12 +1,11 @@
 import { apiUrl } from "../Api";
 import { useState, useEffect } from "react";
 
-function usePedido() {
-  const [pedidos, setPedidos] = useState([]);
+function usePostre() {
+  const [postres, setPostres] = useState([]);
   const [formData, setFormData] = useState({
-    cantidad: 0,
-    dia_entrega: 0,
-    pago: false,
+    id: 0,
+    sabor: '',
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -14,15 +13,15 @@ function usePedido() {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`${apiUrl}/pedidos`);
+      const response = await fetch(`${apiUrl}/postres`);
       if (!response.ok) {
-        throw new Error('Error al cargar los datos de pedidos');
+        throw new Error('Error al cargar los datos de postres');
       }
       const result = await response.json();
-      setPedidos(result);
+      setPostres(result);
     } catch (err) {
-      console.error(err);
       setError(err.message);
+      console.error(err);
     } finally {
       setLoading(false);
     }
@@ -31,51 +30,52 @@ function usePedido() {
   const deleteData = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`${apiUrl}/delete-pedidos`, {
+      const response = await fetch(`${apiUrl}/delete-postres`, {
         method: 'DELETE',
       });
       if (!response.ok) {
-        throw new Error('Error al eliminar datos de pedidos');
+        throw new Error('Error al eliminar datos de postres');
       }
       const result = await response.json();
       alert(result.message);
       fetchData();
     } catch (err) {
-      console.error(err);
       setError(err.message);
+      console.error(err);
     } finally {
       setLoading(false);
     }
   };
 
   const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    const newValue = type === 'checkbox' ? checked : value;
-    setFormData((prev) => ({ ...prev, [name]: newValue }));
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   /**
-   * Envía un nuevo pedido al servidor
-   * @param {Object} data - Datos del pedido { cantidad, dia_entrega, pago }
-   * @returns {Object} pedido creado
+   * Envía un nuevo postre al servidor
+   * @param {Object} data - Datos del postre (ej: { sabor: 'Maracuyá' })
+   * @returns {Object} postre creado o { id: null }
    */
   const handleSubmit = async (data) => {
     setLoading(true);
     try {
-      const response = await fetch(`${apiUrl}/pedidos`, {
+      const response = await fetch(`${apiUrl}/postres`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify(data),
       });
       if (!response.ok) {
-        throw new Error('Error al enviar el pedido');
+        throw new Error('Error al agregar postre');
       }
       const result = await response.json();
       fetchData();
-      return result.pedido || { id: null };
+      return result.postre || { id: null };
     } catch (err) {
-      console.error(err);
       setError(err.message);
+      console.error(err);
       return { id: null };
     } finally {
       setLoading(false);
@@ -87,16 +87,16 @@ function usePedido() {
   }, []);
 
   return {
-    pedidos,
+    postres,
     formData,
     loading,
     error,
-    setFormData,
+    fetchData,
+    deleteData,
     handleInputChange,
     handleSubmit,
-    deleteData,
-    fetchData,
+    setFormData,
   };
 }
 
-export default usePedido;
+export default usePostre;

@@ -1,92 +1,109 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import './ClienteForm.css';
 import EliminarClientes from './EliminarClientes';
-import useClientes from './useClientes';
 
-function ClienteForm({ formData, loading, handleChange, handleSubmit }) {
-  const { deleteData } = useClientes();
+function ClienteForm({
+  formData,
+  handleChange,
+  handleSubmitCliente,
+  handleSubmitPedido,
+  handleSubmitEntrega,
+  buscarPostrePorSabor, // función de usePostre para obtener id_postre
+  deleteData,
+  loading
+}) {
   const [sabores, setSabores] = useState([]);
 
-  // Obtener los sabores de postres de la API
   useEffect(() => {
-    const fetchSabores = async () => {
-      try {
-        const response = await fetch('/api/sabores');
-        const data = await response.json();
-        setSabores(data);
-      } catch (error) {
-        console.error('Error al obtener los sabores:', error);
-      }
-    };
-
-    fetchSabores();
+    setSabores([
+      { sabor_postre: 'Maracuyá' },
+      { sabor_postre: 'Mora' },
+      { sabor_postre: 'Mango' },
+      { sabor_postre: 'Milo' },
+      { sabor_postre: 'Capuchino' },
+      { sabor_postre: 'Uchuva' },
+      { sabor_postre: 'Oreo' },
+      { sabor_postre: 'Fresa' },
+      { sabor_postre: 'Café' }
+    ]);
   }, []);
+
+  const handleSubmitTodo = async (e) => {
+    e.preventDefault();
+
+    try {
+      // Crear cliente
+      const cliente = await handleSubmitCliente(formData);
+      if (!cliente?.id) throw new Error('Error al crear cliente');
+
+      // Crear pedido
+      const pedido = await handleSubmitPedido(formData);
+      if (!pedido?.id) throw new Error('Error al crear pedido');
+
+      // Obtener postre por sabor
+      const postre = await buscarPostrePorSabor(formData.sabor1);
+      if (!postre?.id) throw new Error('Sabor no válido');
+
+      // Crear entrega
+      await handleSubmitEntrega({
+        id_cliente: cliente.id,
+        id_pedido: pedido.id,
+        id_postre: postre.id
+      });
+
+      // Opcional: puedes limpiar el formulario aquí si deseas
+
+    } catch (error) {
+      console.error('Error al procesar la entrega:', error);
+    }
+  };
 
   return (
     <div className="form__container">
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmitTodo}>
         {/* Nombre */}
         <div className="form__group">
-          <label className="form__input-label" htmlFor="nombre">Nombre:</label>
+          <label htmlFor="nombre" className="form__label">Nombre:</label>
           <input
-            className="form__input-input"
             type="text"
             id="nombre"
             name="nombre"
             value={formData.nombre}
             onChange={handleChange}
             required
+            className="form__input"
           />
         </div>
 
         {/* Teléfono */}
         <div className="form__group">
-          <label className="form__input-label" htmlFor="telefono">Celular:</label>
+          <label htmlFor="telefono" className="form__label">Celular:</label>
           <input
-            className="form__input-input"
             type="tel"
             id="telefono"
             name="telefono"
             value={formData.telefono}
             onChange={handleChange}
             required
+            className="form__input"
           />
         </div>
 
-        {/* Primer sabor */}
+        {/* Sabor */}
         <div className="form__group">
-          <label className="form__input-label" htmlFor="sabor1">Primer Sabor:</label>
+          <label htmlFor="sabor1" className="form__label">Sabor:</label>
           <select
-            className="form__input-input"
             id="sabor1"
             name="sabor1"
             value={formData.sabor1}
             onChange={handleChange}
             required
+            className="form__input"
           >
             <option value="">Seleccione un sabor</option>
             {sabores.map(postre => (
               <option key={postre.sabor_postre} value={postre.sabor_postre}>
-                {postre.sabor_postre} (${postre.precio})
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {/* Segundo sabor */}
-        <div className="form__group">
-          <label className="form__input-label" htmlFor="sabor2">Segundo Sabor (opcional):</label>
-          <select
-            className="form__input-input"
-            id="sabor2"
-            name="sabor2"
-            value={formData.sabor2 || ''}
-            onChange={handleChange}
-          >
-            <option value="">Ninguno</option>
-            {sabores.map(postre => (
-              <option key={postre.sabor_postre} value={postre.sabor_postre}>
-                {postre.sabor_postre} (${postre.precio})
+                {postre.sabor_postre}
               </option>
             ))}
           </select>
@@ -94,56 +111,42 @@ function ClienteForm({ formData, loading, handleChange, handleSubmit }) {
 
         {/* Cantidad */}
         <div className="form__group">
-          <label className="form__input-label" htmlFor="cantidad">Cantidad:</label>
+          <label htmlFor="cantidad" className="form__label">Cantidad:</label>
           <input
-            className="form__input-input"
             type="number"
             id="cantidad"
             name="cantidad"
             value={formData.cantidad}
             onChange={handleChange}
             required
+            className="form__input"
           />
         </div>
 
         {/* Día */}
         <div className="form__group">
-          <label className="form__input-label" htmlFor="dia">Día:</label>
+          <label htmlFor="dia" className="form__label">Día:</label>
           <input
-            className="form__input-input"
             type="date"
             id="dia"
             name="dia"
             value={formData.dia}
             onChange={handleChange}
             required
+            className="form__input"
           />
         </div>
 
-        {/* Hora */}
+        {/* Pago */}
         <div className="form__group">
-          <label className="form__input-label" htmlFor="hora">Hora:</label>
-          <input
-            className="form__input-input"
-            type="time"
-            id="hora"
-            name="hora"
-            value={formData.hora}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        {/* Entregado */}
-        <div className="form__group">
-          <label className="form__input-label" htmlFor="entregado">Entregado:</label>
+          <label htmlFor="entregado" className="form__label">Pago:</label>
           <select
-            className="form__input-input"
             id="entregado"
             name="entregado"
             value={formData.entregado}
             onChange={handleChange}
             required
+            className="form__input"
           >
             <option value="">Seleccione</option>
             <option value="si">Sí</option>
@@ -151,25 +154,7 @@ function ClienteForm({ formData, loading, handleChange, handleSubmit }) {
           </select>
         </div>
 
-        {/* Pago */}
-        <div className="form__group">
-          <label className="form__input-label" htmlFor="pago">Pago:</label>
-          <select
-            className="form__input-input"
-            id="pago"
-            name="pago"
-            value={formData.pago}
-            onChange={handleChange}
-            required
-          >
-            <option value="">Seleccione</option>
-            <option value="pendiente">Pendiente</option>
-            <option value="completo">Completo</option>
-          </select>
-        </div>
-        
-        <div className='form__btn'>
-          {/* Botón de enviar */}
+        <div className="form__btn">
           <button
             type="submit"
             disabled={loading}

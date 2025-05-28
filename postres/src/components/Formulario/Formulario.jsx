@@ -1,21 +1,19 @@
-import React from 'react';
 import ClienteForm from './ClienteForm';
 import ClienteTable from './ClienteTable';
-import useClientes from './useClientes';
 import './Formulario.css';
 import Header from '../Header';
-
-
+import useEntrega from './useEntrega';
 
 function Formulario() {
   const {
-    data,
     formData,
     loading,
     error,
-    handleInputChange,
+    handleChange,
     handleSubmit,
-  } = useClientes();
+    deleteData,
+    data,
+  } = useEntrega();
 
   return (
     <>
@@ -29,8 +27,9 @@ function Formulario() {
             className="formulario__cliente"
             formData={formData}
             loading={loading}
-            handleChange={handleInputChange}
+            handleChange={handleChange}
             handleSubmit={handleSubmit}
+            deleteData={deleteData}
           />
         </div>
         <div className="formulario__tabla-container">
