@@ -1,16 +1,13 @@
 import { useEffect, useState } from 'react';
-import './ClienteForm.css';
-import EliminarClientes from './EliminarClientes';
+import './ClienteForm.css'; // Asegúrate de que tu archivo CSS existe
+import EliminarClientes from './EliminarClientes'; // Asegúrate de que este componente existe
 
 function ClienteForm({
-  formData,
-  handleChange,
-  handleSubmitCliente,
-  handleSubmitPedido,
-  handleSubmitEntrega,
-  buscarPostrePorSabor, // función de usePostre para obtener id_postre
-  deleteData,
-  loading
+  formData, 
+  handleChange, 
+  handleSubmitTodo, 
+  deleteData, 
+  loading 
 }) {
   const [sabores, setSabores] = useState([]);
 
@@ -28,40 +25,11 @@ function ClienteForm({
     ]);
   }, []);
 
-  const handleSubmitTodo = async (e) => {
-    e.preventDefault();
-
-    try {
-      // Crear cliente
-      const cliente = await handleSubmitCliente(formData);
-      if (!cliente?.id) throw new Error('Error al crear cliente');
-
-      // Crear pedido
-      const pedido = await handleSubmitPedido(formData);
-      if (!pedido?.id) throw new Error('Error al crear pedido');
-
-      // Obtener postre por sabor
-      const postre = await buscarPostrePorSabor(formData.sabor1);
-      if (!postre?.id) throw new Error('Sabor no válido');
-
-      // Crear entrega
-      await handleSubmitEntrega({
-        id_cliente: cliente.id,
-        id_pedido: pedido.id,
-        id_postre: postre.id
-      });
-
-      // Opcional: puedes limpiar el formulario aquí si deseas
-
-    } catch (error) {
-      console.error('Error al procesar la entrega:', error);
-    }
-  };
-
   return (
     <div className="form__container">
+      {/* El formulario ahora llama directamente a la prop handleSubmitTodo */}
       <form onSubmit={handleSubmitTodo}>
-        {/* Nombre */}
+        {/* Campo: Nombre del Cliente */}
         <div className="form__group">
           <label htmlFor="nombre" className="form__label">Nombre:</label>
           <input
@@ -75,7 +43,7 @@ function ClienteForm({
           />
         </div>
 
-        {/* Teléfono */}
+        {/* Campo: Teléfono del Cliente */}
         <div className="form__group">
           <label htmlFor="telefono" className="form__label">Celular:</label>
           <input
@@ -89,12 +57,12 @@ function ClienteForm({
           />
         </div>
 
-        {/* Sabor */}
+        {/* Campo: Sabor del Postre */}
         <div className="form__group">
           <label htmlFor="sabor1" className="form__label">Sabor:</label>
           <select
             id="sabor1"
-            name="sabor1"
+            name="sabor1" // 'sabor1' para que coincida con el formData unificado
             value={formData.sabor1}
             onChange={handleChange}
             required
@@ -109,7 +77,7 @@ function ClienteForm({
           </select>
         </div>
 
-        {/* Cantidad */}
+        {/* Campo: Cantidad del Pedido */}
         <div className="form__group">
           <label htmlFor="cantidad" className="form__label">Cantidad:</label>
           <input
@@ -123,13 +91,13 @@ function ClienteForm({
           />
         </div>
 
-        {/* Día */}
+        {/* Campo: Día de Entrega del Pedido */}
         <div className="form__group">
           <label htmlFor="dia" className="form__label">Día:</label>
           <input
             type="date"
             id="dia"
-            name="dia"
+            name="dia" // 'dia' para que coincida con el formData unificado
             value={formData.dia}
             onChange={handleChange}
             required
@@ -137,12 +105,12 @@ function ClienteForm({
           />
         </div>
 
-        {/* Pago */}
+        {/* Campo: Estado de Pago del Pedido */}
         <div className="form__group">
           <label htmlFor="entregado" className="form__label">Pago:</label>
           <select
             id="entregado"
-            name="entregado"
+            name="entregado" // 'entregado' para que coincida con el formData unificado
             value={formData.entregado}
             onChange={handleChange}
             required
@@ -154,19 +122,21 @@ function ClienteForm({
           </select>
         </div>
 
+        {/* Botones de Acción */}
         <div className="form__btn">
           <button
             type="submit"
-            disabled={loading}
+            disabled={loading} // Deshabilita el botón mientras se procesa el envío
             className="form__submit-button"
           >
             {loading ? 'Enviando...' : 'Enviar Pedido'}
           </button>
 
+          {/* Componente para eliminar clientes (se asume que existe y funciona) */}
           <EliminarClientes
             className="formulario__eliminar"
             loading={loading}
-            onDelete={deleteData}
+            onDelete={deleteData} // Llama a la función de eliminación proporcionada
           />
         </div>
       </form>
